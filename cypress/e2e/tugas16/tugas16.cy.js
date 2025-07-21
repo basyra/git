@@ -41,6 +41,7 @@ context('Actions', () => {
     cy.wait('@logingagal').its('response.statusCode').should('eq', 304);
   });
 
+  //tanpa intercept karena ada slot yang kosong
   it('Login gagal', () => {
     cy.get('input[name="username"]').type('Admin');
     // cy.get('input[name="password"]').type();
