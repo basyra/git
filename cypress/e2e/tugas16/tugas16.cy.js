@@ -19,10 +19,6 @@ context('Actions', () => {
 
   });
 
-  it ('halaman dashboard', () => {
-    cy.visit('https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index')
-    cy.get(':nth-child(1) > .oxd-main-menu-item > .oxd-text').click()
-  })
   it('Login gagal', () => {
     cy.get('input[name="username"]').type('Admin');
     cy.get('input[name="password"]').type('admin321');
@@ -41,7 +37,7 @@ context('Actions', () => {
     cy.wait('@logingagal').its('response.statusCode').should('eq', 304);
   });
 
-  //tanpa intercept karena ada slot yang kosong
+  // //tanpa intercept karena password kosong
   it('Login gagal', () => {
     cy.get('input[name="username"]').type('Admin');
     // cy.get('input[name="password"]').type();
@@ -49,6 +45,7 @@ context('Actions', () => {
     cy.get('.oxd-input-group > .oxd-text').should('contain', 'Required');
   });
 
+  // //tanpa intercept karena username kosong
   it('Login gagal', () => {
     // cy.get('input[name="username"]').type();
     cy.get('input[name="password"]').type('admin123');
@@ -56,21 +53,5 @@ context('Actions', () => {
     cy.get('.oxd-input-group > .oxd-text').should('contain', 'Required');
   });
 
-  
-
-  // it('should navigate and test forgot password feature', () => {
-  //   // Klik "Forgot your password?"
-  //   cy.contains('Forgot your password?').click()
-
-  //   // Pastikan masuk ke halaman reset password
-  //   cy.url().should('include', '/requestPasswordResetCode')
-
-  //   // Isi username lalu submit
-  //   cy.get('input[name="username"]').type('Admin')
-  //   cy.get('button[type="submit"]').click()
-
-  //   // Verifikasi muncul notifikasi (ubah sesuai yang tampil di aplikasi)
-  //   cy.contains('Reset Password link sent successfully').should('be.visible')
-  // });
 
 });
