@@ -4,7 +4,7 @@ describe('Automation API Reqres.in', () => {
   it('TC-All Users', () => {
     cy.request({
       method: 'GET',
-      url: 'https://reqres.in/api/user/2',
+      url: 'https://reqres.in/api/users',
       headers: {
         'x-api-key': 'reqres-free-v1',
       },
@@ -15,10 +15,10 @@ describe('Automation API Reqres.in', () => {
   })
 
   // GET Single User
-  it('TC-GET1', () => {
+  it('TC-GET', () => {
     cy.request({
       method: 'GET',
-      url: 'https://reqres.in/api/user/2',
+      url: 'https://reqres.in/api/users/2',
       headers: {
         'x-api-key': 'reqres-free-v1',
       },
@@ -29,22 +29,8 @@ describe('Automation API Reqres.in', () => {
     })
   })
 
-//   GET Single User Not Found
-  it('TC-GET2', () => {
-    cy.request({
-      method: 'GET',
-      url: 'https://reqres.in/api/users',
-      headers: {
-        'x-api-key': 'reqres-free-v1',
-    },
-      failOnStatusCode: false
-    }).then((response) => {
-      expect(response.status).to.eq(200)
-    })
-  })
-
-//   // POST Create User
-  it('TC-POST1', () => {
+  //   // POST Create User
+  it('TC-POST', () => {
     cy.request({
         method: 'POST', 
         url: 'https://reqres.in/api/users', 
