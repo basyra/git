@@ -20,7 +20,8 @@ describe('Automation API Reqres.in', () => {
       method: 'GET',
       url: 'https://reqres.in/api/users/2',
       headers: {
-        'x-api-key': 'reqres-free-v1',
+        'Content-Type': 'application/json',
+        'x-api-key': 'reqres-free-v1'
       },
     //   failOnStatusCode: false
     }).then((response) => {
@@ -35,7 +36,8 @@ describe('Automation API Reqres.in', () => {
         method: 'POST', 
         url: 'https://reqres.in/api/users', 
         headers: {
-        'x-api-key': 'reqres-free-v1',
+        'Content-Type': 'application/json',
+        'x-api-key': 'reqres-free-v1'
       },
       body: {
         name: 'Iqbal Ananta Basyra',
@@ -54,7 +56,8 @@ describe('Automation API Reqres.in', () => {
         method: 'PUT', 
         url: 'https://reqres.in/api/users/10', 
         headers: {
-        'x-api-key': 'reqres-free-v1',
+        'Content-Type': 'application/json',
+        'x-api-key': 'reqres-free-v1'
       },
       body: {
         name: 'Iqbal Ananta Basyra',
@@ -73,7 +76,8 @@ describe('Automation API Reqres.in', () => {
         method: 'DELETE', 
         url: 'https://reqres.in/api/users/10', 
         headers: {
-        'x-api-key': 'reqres-free-v1',
+        'Content-Type': 'application/json',
+        'x-api-key': 'reqres-free-v1'
       },
       }).then((response) => {
       expect(response.status).to.eq(204)
