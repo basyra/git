@@ -1,32 +1,57 @@
-// cypress/e2e/login.cy.js
+context('Actions', () => {
+  beforeEach(() => {
+        cy.visit('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login')
+  })
 
-import LoginPage from './javascript/loginpage';
+  it('Login berhasil (valid credentials)', () => {
+    
+    
+    // Delay each keypress by 0.1 sec
+    cy.get(':nth-child(2) > .oxd-input-group > :nth-child(2) > .oxd-input').type('Admin', { delay: 100 })
+    cy.get(':nth-child(2) > .oxd-input-group > :nth-child(2) > .oxd-input').should('have.value', 'Admin')
+    cy.get(':nth-child(3) > .oxd-input-group > :nth-child(2) > .oxd-input').type('admin123', { delay: 100 })
+    cy.get(':nth-child(3) > .oxd-input-group > :nth-child(2) > .oxd-input').should('have.value', 'admin123')
+    cy.intercept('get', 'https://opensource-demo.orangehrmlive.com/web/index.php/api/v2/dashboard/employees/action-summary').as('loginRequest');
+    cy.get('.oxd-button').click( { delay: 100 });
+    cy.wait('@loginRequest').its('response.statusCode').should('eq', 200);
 
-describe('Login Test menggunakan metode POM', () => {
+    cy.url().should('include', 'https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index');
 
-    it('TC-001', () => {
-        // 1. Kunjungi halaman login menggunakan metode dari Page Object
-        LoginPage.visit();
+  });
 
-        // 2. Masukkan username
-        LoginPage.enterusername('Admin');
+  it('Login gagal', () => {
+    cy.get('input[name="username"]').type('Admin');
+    cy.get('input[name="password"]').type('admin321');
+    cy.intercept('get', 'https://opensource-demo.orangehrmlive.com/web/index.php/core/i18n/messages').as('logingagal');
+    cy.get('button[type="submit"]').click();
+    cy.get('.oxd-alert-content > .oxd-text').should('contain', 'Invalid credentials');
+    cy.wait('@logingagal').its('response.statusCode').should('eq', 304);
+  });
 
-        // 3. Masukkan password
-        LoginPage.enterpassword('admin123');
+  it('Login gagal', () => {
+    cy.get('input[name="username"]').type('bukanadmin');
+    cy.get('input[name="password"]').type('admin123');
+    cy.intercept('get', 'https://opensource-demo.orangehrmlive.com/web/index.php/core/i18n/messages').as('logingagal');
+    cy.get('button[type="submit"]').click();
+    cy.get('.oxd-alert-content > .oxd-text').should('contain', 'Invalid credentials');
+    cy.wait('@logingagal').its('response.statusCode').should('eq', 304);
+  });
 
-        // 4. Klik tombol login
-        LoginPage.clickLogin();
+  // //tanpa intercept karena password kosong
+  it('Login gagal', () => {
+    cy.get('input[name="username"]').type('Admin');
+    // cy.get('input[name="password"]').type();
+    cy.get('button[type="submit"]').click();
+    cy.get('.oxd-input-group > .oxd-text').should('contain', 'Required');
+  });
 
-        // 5. Verifikasi bahwa dashboard terlihat setelah login berhasil
-        LoginPage.assertDashboardVisible();
-    });
+  // //tanpa intercept karena username kosong
+  it('Login gagal', () => {
+    // cy.get('input[name="username"]').type();
+    cy.get('input[name="password"]').type('admin123');
+    cy.get('button[type="submit"]').click();
+    cy.get('.oxd-input-group > .oxd-text').should('contain', 'Required');
+  });
 
-    //username dan password salah
-    it('TC-002', () => {
-        LoginPage.visit();
-        LoginPage.enterusername('Admin');
-        LoginPage.enterpassword('admin321');
-        LoginPage.clickLogin();
-        cy.contains('Invalid credentials').should('be.visible');
-    });
+
 });
